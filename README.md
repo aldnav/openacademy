@@ -1,5 +1,6 @@
-OpenAcademy - Odoo Building A Module
+OpenAcademy - Learning Odoo
 ---
 
-Reference https://www.odoo.com/documentation/14.0/howtos/backend.html#
-
+- Building a module https://www.odoo.com/documentation/14.0/howtos/backend.html#
+- Multi-company Guidelines https://www.odoo.com/documentation/14.0/howtos/company.html
+- Theme Tutorial https://www.odoo.com/documentation/14.0/howtos/themes.html
