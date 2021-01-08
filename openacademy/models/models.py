@@ -16,6 +16,21 @@ class Course(models.Model):
     session_ids = fields.One2many(
         'openacademy.session', 'course_id', string="Sessions")
 
+    # Multi-company
+    company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True,
+                                 index=True,
+                                 # default=lambda self: self.env.user.company_id,  # Default user company
+                                 default=lambda self: self.env.company,
+                                 )
+
+    # Company-dependent fields
+    company_display_info = fields.Text(string='Infos', compute="_compute_company_display_info")
+
+    @api.depends_context('company')
+    def _compute_company_display_info(self):
+        for record in self:
+            record.company_display_info = f"{record.company_id.name} (by {record.create_uid.name_get()[0][1]})"
+
     #  Add a duplicate option
     # Since we added a constraint for the Course name uniqueness,
     # it is not possible to use the “duplicate” function anymore (Form ‣ Duplicate).
@@ -63,7 +78,7 @@ class Session(models.Model):
                                     domain=['|', ('instructor', '=', True),
                                             ('category_id.name', 'ilike', "Teacher")])
     course_id = fields.Many2one('openacademy.course',
-                                ondelete='cascade', string="Course", required=True)
+                                ondelete='cascade', string="Course", required=True,)
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
 
     # Computed fields

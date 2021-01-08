@@ -4,7 +4,6 @@
         <field name="name">OpenAcademy / Manager</field>
     </record>
 
-
     <record id="only_responsible_can_modify" model="ir.rule">
         <field name="name">Only Responsible can modify Course</field>
         <field name="model_id" ref="model_openacademy_course"/>
@@ -17,6 +16,14 @@
             ['|', ('responsible_id','=',False),
             ('responsible_id','=',user.id)]
         </field>
+    </record>
+
+    <!-- Shareable records -->
+    <record id="course_multi_company_rule" model="ir.rule">
+        <field name="name">Course multi-company</field>
+        <field name="model_id" ref="model_openacademy_course"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('company_id', 'in', company_ids),('company_id','=',False)]</field>
     </record>
 
 </odoo>
